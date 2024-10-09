@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('vaccination_centers', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name');
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
             $table->string('address');
             $table->string('city')->nullable();
             $table->double('latitude')->nullable();

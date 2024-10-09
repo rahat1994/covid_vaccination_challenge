@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function(Blueprint $table) {
             $table->string('nid');
-            $table->foreignId('vaccination_center_id')->nullable()->constrained();
+            $table->foreignUuid('vaccination_center_id')->nullable()->constrained();
         });
     }
 
@@ -22,6 +22,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('users', function(Blueprint $table) {
+            $table->dropColumn('nid');
+            $table->dropForeign('vaccination_center_id');
+            $table->dropColumn('vaccination_center_id');
+        });
     }
 };

@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('vaccination_appointments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('vaccination_center_id')->constrained();
+            $table->foreignUuid('vaccination_center_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->dateTime('appointment_at');
             $table->timestamps();
