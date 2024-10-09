@@ -29,6 +29,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'nid',
+        'vaccination_center_id',
     ];
 
     /**

@@ -7,12 +7,21 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import Select from '@/Components/Select.vue';
+import { pushScopeId, defineProps } from 'vue';
+
+
+defineProps({
+    vaccineCenters: Array,
+});
 
 const form = useForm({
     name: '',
     email: '',
     password: '',
     password_confirmation: '',
+    vaccine_center_id: '',
+    nid: '',
     terms: false,
 });
 
@@ -44,6 +53,20 @@ const submit = () => {
                     autocomplete="name"
                 />
                 <InputError class="mt-2" :message="form.errors.name" />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="nid" value="National ID" />
+                <TextInput
+                    id="nid"
+                    v-model="form.nid"
+                    type="text"
+                    class="mt-1 block w-full"
+                    required
+                    autofocus
+                    autocomplete="nid"
+                />
+                <InputError class="mt-2" :message="form.errors.nid" />
             </div>
 
             <div class="mt-4">
@@ -83,6 +106,20 @@ const submit = () => {
                     autocomplete="new-password"
                 />
                 <InputError class="mt-2" :message="form.errors.password_confirmation" />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="vaccine-center" value="Vaccine Center" />
+                <Select
+                    id="vaccine-center"
+                    v-model="form.vaccine_center_id"
+                    :options="vaccineCenters"
+                    type="email"
+                    class="mt-1 block w-full"
+                    required
+                    autocomplete="username"
+                />
+                <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
             <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="mt-4">

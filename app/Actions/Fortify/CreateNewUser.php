@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Jobs\ProcessUserRegistration;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -22,14 +23,22 @@ class CreateNewUser implements CreatesNewUsers
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'nid' =>  ['required', 'regex:/^\d{13}$|^\d{17}$/'],
+            'vaccine_center_id' => ['required', 'string', 'exists:vaccination_centers,id'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
-        return User::create([
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
+            'nid' => $input['nid'],
+            'vaccination_center_id' => $input['vaccine_center_id'],
             'password' => Hash::make($input['password']),
         ]);
+
+        ProcessUserRegistration::dispatch($user);
+
+        return $user;
     }
 }
