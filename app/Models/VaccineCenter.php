@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Str;
+use Illuminate\Support\Str;
 
 class VaccineCenter extends Model
 {
@@ -26,9 +26,15 @@ class VaccineCenter extends Model
         'daily_limit',
     ];
 
-    public static function booted() {
+    public static function booted()
+    {
         static::creating(function ($model) {
             $model->id = Str::uuid();
         });
+    }
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
     }
 }
