@@ -12,6 +12,20 @@ class VaccineCenter extends Model
 
     protected $keyType = 'string';
     public $incrementing = false;
+
+    protected $table = 'vaccination_centers';
+
+    protected $fillable = [
+        'name',
+        'phone',
+        'email',
+        'address',
+        'city',
+        'latitude',
+        'longitude',
+        'daily_limit',
+    ];
+
     public static function booted() {
         static::creating(function ($model) {
             $model->id = Str::uuid();
