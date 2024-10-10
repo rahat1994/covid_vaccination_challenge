@@ -10,6 +10,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class VaccineScheduleNotification extends Mailable implements ShouldQueue
 {
@@ -22,9 +23,7 @@ class VaccineScheduleNotification extends Mailable implements ShouldQueue
         public User $user,
         public VaccineCenter $vaccineCenter,
         public string $appointmentAt,
-    ) {
-        //
-    }
+    ) {}
 
     /**
      * Get the message envelope.
@@ -41,8 +40,9 @@ class VaccineScheduleNotification extends Mailable implements ShouldQueue
      */
     public function content(): Content
     {
+        Log::info('Sending vaccine schedule notification to ' . $this->user->email);
         return new Content(
-            view: 'view.name',
+            view: 'emails.vaccine_schedule_notification',
         );
     }
 

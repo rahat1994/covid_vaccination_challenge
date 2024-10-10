@@ -3,10 +3,10 @@
 namespace App\Console\Commands;
 
 use App\Mail\VaccineScheduleNotification;
+use App\Models\Appointment;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Schedule;
 
 class SendVaccineReminderEmails extends Command
 {
@@ -32,15 +32,19 @@ class SendVaccineReminderEmails extends Command
         $tomorrow = Carbon::tomorrow();
 
         // Find all schedules for tomorrow
-        $schedules = Schedule::whereDate('scheduled_date', $tomorrow)->with('user', 'vaccineCenter')->get();
+        $schedules = Appointment::whereDate('appointment_at', $tomorrow)->with('user', 'vaccinationCenter')->get();
+        try {
+            foreach ($schedules as $schedule) {
+                $user = $schedule->user;
+                $vaccineCenter = $schedule->vaccinationCenter;
+                $scheduledDate = $schedule->appointment_at;
 
-        foreach ($schedules as $schedule) {
-            $user = $schedule->user;
-            $vaccineCenter = $schedule->vaccineCenter;
-            $scheduledDate = $schedule->scheduled_date;
-
-            // Send email notification
-            Mail::to($user->email)->send(new VaccineScheduleNotification($user, $vaccineCenter, $scheduledDate));
+                // Send email notification
+                Mail::to($user->email)->send(new VaccineScheduleNotification($user, $vaccineCenter, $scheduledDate));
+            }
+        } catch (\Exception $e) {
+            $this->error('Failed to send reminder emails. ' . $e->getMessage());
+            return;
         }
 
         $this->info('Reminder emails sent for users scheduled on ' . $tomorrow->toFormattedDateString());

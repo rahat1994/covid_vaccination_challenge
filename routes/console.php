@@ -9,4 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 // Schedule::call()->daily();
-Schedule::command("vaccine:send-reminders")->dailyAt('21.00');
+Schedule::command("vaccine:send-reminders")->dailyAt('21.00')->timezone('Asia/Dhaka');
