@@ -7,6 +7,7 @@ use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use App\Models\VaccineCenter;
+use DB;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -46,7 +47,10 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::registerView(function () {
-            $vaccineCenters = VaccineCenter::all(['id', 'name'])->toArray();
+            // DB::enableQueryLog();
+            // $vaccineCenters = VaccineCenter::all(['id', 'name'])->toArray(); // takes 0.67ms
+            $vaccineCenters = DB::table('vaccination_centers')->select('id', 'name')->get(); // takes 0.57ms
+            // dd(DB::getQueryLog());
             return Inertia::render('Auth/Register', ['vaccineCenters' => $vaccineCenters]);
         });
     }
