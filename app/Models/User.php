@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Jobs\ProcessUserRegistration;
 use Crypt;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -54,6 +55,13 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public static function booted()
+    {
+        static::created(function (User $model) {
+            // ProcessUserRegistration::dispatch($model);
+        });
+    }
 
     /**
      * Get the attributes that should be cast.
