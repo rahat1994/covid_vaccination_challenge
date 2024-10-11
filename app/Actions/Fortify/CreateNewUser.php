@@ -23,7 +23,7 @@ class CreateNewUser implements CreatesNewUsers
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'nid' =>  ['required', 'regex:/^\d{13}$|^\d{17}$/'],
+            'nid' =>  ['required', 'regex:/^\d{13}$|^\d{17}$/', 'unique:users'],
             'vaccine_center_id' => ['required', 'string', 'exists:vaccination_centers,id'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
