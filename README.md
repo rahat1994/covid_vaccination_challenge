@@ -1,20 +1,7 @@
-# Spark Multivendor
+# Covid vaccination challenge
 ## About this project
 
-This project completely relies on 4 inhouse packages
 
-1. [sparkcommerce](https://github.com/rahat1994/sparkCommerce).
-   
-    This is the core of the project, and all other packages build upon its functionality. It provides basic shop setup features with authentication.
-2. [sparkcommerce-multivendor](https://github.com/rahat1994/sparkCommerce-multivendor)
-
-    This package adds multivendor capabilities to the sparkcommerce package.
-3. [sparkcommerce-rest-routes](https://github.com/rahat1994/sparkCommerce-rest-routes)
-
-    Not every application requires REST API capabilities, but for those that do, this package adds REST API functionality to the SparkCommerce package. The available REST routes are detailed later on this page
-4. [sparkcommerce-multivendor-rest-routes](https://github.com/rahat1994/sparkCommerce-multivendor-rest-routes)
-
-    It extends on the 3rd package and adds its own rest routes.
 
 ## Setup Process
 1. `git clone`
