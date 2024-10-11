@@ -75,15 +75,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    // TODO: Implement the following methods
+    // public function setNidAttribute($value)
+    // {
+    //     $this->attributes['nid'] = Crypt::encryptString($value);
+    // }
 
-    public function setNidAttribute($value)
-    {
-        $this->attributes['nid'] = Crypt::encryptString($value);
-    }
-
-    // Accessor to decrypt when retrieving
-    public function getNidAttribute($value)
-    {
-        return Crypt::decryptString($value);
-    }
+    // // Accessor to decrypt when retrieving
+    // public function getNidAttribute($value)
+    // {
+    //     return Crypt::decryptString($value);
+    // }
 }
