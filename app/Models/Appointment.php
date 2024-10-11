@@ -30,6 +30,6 @@ class Appointment extends Model
 
     public function vaccinationCenter()
     {
-        return $this->belongsTo(VaccineCenter::class);
+        return $this->belongsTo(VaccineCenter::class, 'vaccination_center_id');
     }
 }

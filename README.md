@@ -1,66 +1,67 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Spark Multivendor
+## About this project
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This project completely relies on 4 inhouse packages
 
-## About Laravel
+1. [sparkcommerce](https://github.com/rahat1994/sparkCommerce).
+   
+    This is the core of the project, and all other packages build upon its functionality. It provides basic shop setup features with authentication.
+2. [sparkcommerce-multivendor](https://github.com/rahat1994/sparkCommerce-multivendor)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+    This package adds multivendor capabilities to the sparkcommerce package.
+3. [sparkcommerce-rest-routes](https://github.com/rahat1994/sparkCommerce-rest-routes)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+    Not every application requires REST API capabilities, but for those that do, this package adds REST API functionality to the SparkCommerce package. The available REST routes are detailed later on this page
+4. [sparkcommerce-multivendor-rest-routes](https://github.com/rahat1994/sparkCommerce-multivendor-rest-routes)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+    It extends on the 3rd package and adds its own rest routes.
 
-## Learning Laravel
+## Setup Process
+1. `git clone`
+2. `composer install`
+3. create `.env` file from `.env.example`
+4. generate APP KEY by `php artisan key:generate`
+5. paste the DB credentials
+6. `php artisan migrate`
+7. run the `sparkcommerce` commands (Not needed for this project)
+8. run the `scmv` commands
+    * publish User roles using `php artisan scmv:publish-roles`
+    * create first admin user `php artisan make:scmv-admin-user`
+    * create first vendor owner user `php artisan make:scmv-vendor-owner-user`
+9. serve the app using `php artisan serve`
+10. for vendor dashboard visit http://127.0.0.1:8000/vendor/login
+11. for admin dashboard visit http://127.0.0.1:8000/backoffice/login
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Find the coding implementation of the packages
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+* [sparkcommerce-rest-routes\src\Http\Controllers\](https://github.com/rahat1994/sparkcommerce-rest-routes/tree/main/src/Http/Controllers)
+* [sparkcommerce-multivendor-rest-routes\src\Http\Controllers\](https://github.com/rahat1994/sparkcommerce-multivendor-rest-routes/tree/main/src/Http/Controllers)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Features
 
-## Laravel Sponsors
+### SparkCommerce
+- [x] DashBoard
+- [x] Product CRUD
+- [x] Tags CRUD
+- [x] Categories CRUD
+- [x] Orders
+- [x] Coupons CRUD 
+- [x] Checkout
+- [ ] Using Sale price during checkout
+- [ ] Use coupons during checkout
+- [ ] Anlytics
+- [ ] Export/Import products
+- [ ] Export/Import Orders
+- [ ] Export/Import Categories
+- [ ] Export/Import Tags
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### SparkCommerce Multivendor
+- [x] Vendor CRUD
+- [x] Advertisement CRUD
+- [x] Shop Categories CRUD
+- [x] Support ticket CRUD
+- [ ] Vendor Request
+- [ ] Payout Request
+- [ ] Deactivating vendor
+- [ ] Conflict resolution
+- [ ] Platform Commision
