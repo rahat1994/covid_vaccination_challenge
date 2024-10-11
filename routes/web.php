@@ -28,7 +28,7 @@ Route::post('get-status', function (Request $request) {
         if(empty($appointment)) {
             $status = 'Not Scheduled';
         } else {
-            if(Carbon::parse($appointment[0]->appointment_at)->isPast()) {
+            if(Carbon::parse($appointment->appointment_at)->isPast()) {
                 $status = 'Vaccinated';
             }
             $status = 'Scheduled';
