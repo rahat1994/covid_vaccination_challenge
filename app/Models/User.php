@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Crypt;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -65,5 +66,16 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function setNidAttribute($value)
+    {
+        $this->attributes['nid'] = Crypt::encryptString($value);
+    }
+
+    // Accessor to decrypt when retrieving
+    public function getNidAttribute($value)
+    {
+        return Crypt::decryptString($value);
     }
 }

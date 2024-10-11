@@ -30,8 +30,8 @@ class SendVaccineReminderEmails extends Command
     public function handle()
     {
         $tomorrow = Carbon::tomorrow();
+        // TODO: make this function more effecient
 
-        // Find all schedules for tomorrow
         $schedules = Appointment::whereDate('appointment_at', $tomorrow)->with('user', 'vaccinationCenter')->get();
         try {
             foreach ($schedules as $schedule) {
