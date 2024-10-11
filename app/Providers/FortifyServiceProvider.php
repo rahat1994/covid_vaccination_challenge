@@ -49,7 +49,10 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::registerView(function () {
             // DB::enableQueryLog();
             // $vaccineCenters = VaccineCenter::all(['id', 'name'])->toArray(); // takes 0.67ms
-            $vaccineCenters = DB::table('vaccination_centers')->select('id', 'name')->get(); // takes 0.57ms
+            $vaccineCenters = cache()->remember('vaccine_centers', 60 * 60 * 24, function () {
+                return DB::table('vaccination_centers')->select('id', 'name')->get(); // takes 0.57ms;
+            });
+             
             // dd(DB::getQueryLog());
             return Inertia::render('Auth/Register', ['vaccineCenters' => $vaccineCenters]);
         });
