@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -14,9 +15,28 @@ Route::post('get-status', function (Request $request) {
     $request->validate([
         'value' => ['required', 'string', 'regex:/^\d{13}$|^\d{17}$/'],
     ]);
-    $user = User::whereNid($request->value)->first();
+    // $user = User::whereNid($request->value)->first();
+    // DB::enableQueryLog();
+    $user = DB::selectOne('select id from users where nid = ? LIMIT 1', [$request->value]);
+    $appointment = DB::selectOne('select vaccination_appointments.appointment_at from users JOIN vaccination_appointments on users.id = vaccination_appointments.user_id where users.nid = ? LIMIT 1', [$request->value]);
+    // dd(DB::getQueryLog());
+    $status = null;
+
+    if(empty($user)) {
+        $status = 'Not Registered';
+    } else{
+        if(empty($appointment)) {
+            $status = 'Not Scheduled';
+        } else {
+            if(Carbon::parse($appointment[0]->appointment_at)->isPast()) {
+                $status = 'Vaccinated';
+            }
+            $status = 'Scheduled';
+        }
+    }    
+
     return Inertia::render('Welcome', [
-        'user' => $user
+        'status' => $status
     ]);
     
 })->name('get-status');

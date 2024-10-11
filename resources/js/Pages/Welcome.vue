@@ -8,8 +8,8 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 
 defineProps({
-    user: {
-        type: Object,
+    status: {
+        type: String,
     }
 });
 
@@ -54,9 +54,13 @@ const submit = () => {
             </div>
         </form>
 
-        <div v-if="user">
-            NID: {{ user.nid }}
-            Status: {{ user.name }}
+        <div v-if="status">
+            {{ status }}
+            <Link v-if="status == 'Not Registered'" :href="route('register')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    register now
+            </Link>
         </div>
+
+
     </AuthenticationCard>
 </template>
