@@ -18,7 +18,7 @@ class ApiTokenPermissionsTest extends TestCase
             $this->markTestSkipped('API support is not enabled.');
         }
 
-        $this->actingAs($user = User::factory()->withPersonalTeam()->create());
+        $this->actingAs($user = User::factory()->withVaccinationCenter()->withPersonalTeam()->create());
 
         $token = $user->tokens()->create([
             'name' => 'Test Token',
@@ -26,7 +26,7 @@ class ApiTokenPermissionsTest extends TestCase
             'abilities' => ['create', 'read'],
         ]);
 
-        $this->put('/user/api-tokens/'.$token->id, [
+        $this->put('/user/api-tokens/' . $token->id, [
             'name' => $token->name,
             'permissions' => [
                 'delete',

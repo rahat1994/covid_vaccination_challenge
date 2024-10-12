@@ -7,9 +7,9 @@ use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use App\Models\VaccineCenter;
-use DB;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
@@ -37,7 +37,7 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
         RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
+            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
 
             return Limit::perMinute(5)->by($throttleKey);
         });
@@ -52,7 +52,7 @@ class FortifyServiceProvider extends ServiceProvider
             $vaccineCenters = cache()->remember('vaccine_centers', 60 * 60 * 24, function () {
                 return DB::table('vaccination_centers')->select('id', 'name')->get(); // takes 0.57ms;
             });
-             
+
             // dd(DB::getQueryLog());
             return Inertia::render('Auth/Register', ['vaccineCenters' => $vaccineCenters]);
         });
