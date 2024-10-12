@@ -4,6 +4,7 @@ namespace App\Actions\Fortify;
 
 use App\Jobs\ProcessUserRegistration;
 use App\Models\User;
+use App\Rules\EnsureNidIsNotDuplicate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -36,8 +37,6 @@ class CreateNewUser implements CreatesNewUsers
             'vaccination_center_id' => $input['vaccine_center_id'],
             'password' => Hash::make($input['password']),
         ]);
-
-        ProcessUserRegistration::dispatch($user);
 
         return $user;
     }

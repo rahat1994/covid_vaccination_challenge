@@ -4,10 +4,10 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Jobs\ProcessUserRegistration;
-use Crypt;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Crypt;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -58,8 +58,9 @@ class User extends Authenticatable
 
     public static function booted()
     {
-        static::created(function (User $model) {
+        static::created(function (User $user) {
             // ProcessUserRegistration::dispatch($model);
+            ProcessUserRegistration::dispatch($user);
         });
     }
 
@@ -81,7 +82,7 @@ class User extends Authenticatable
     //     $this->attributes['nid'] = Crypt::encryptString($value);
     // }
 
-    // // Accessor to decrypt when retrieving
+    // // // Accessor to decrypt when retrieving
     // public function getNidAttribute($value)
     // {
     //     return Crypt::decryptString($value);
