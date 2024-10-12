@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Team;
 use App\Models\User;
+use App\Models\VaccineCenter;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -48,6 +49,16 @@ class UserFactory extends Factory
         return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    public function withVaccinationCenter(?callable $callback = null): static
+    {
+        $vaccineCenter = VaccineCenter::factory()->create();
+        return $this->state(function (array $attributes) use ($vaccineCenter) {
+            return [
+                'vaccination_center_id' => $vaccineCenter->id,
+            ];
+        });
     }
 
     /**
