@@ -18,7 +18,7 @@ class DeleteApiTokenTest extends TestCase
             $this->markTestSkipped('API support is not enabled.');
         }
 
-        $this->actingAs($user = User::factory()->withPersonalTeam()->create());
+        $this->actingAs($user = User::factory()->withVaccinationCenter()->withPersonalTeam()->create());
 
         $token = $user->tokens()->create([
             'name' => 'Test Token',
@@ -26,7 +26,7 @@ class DeleteApiTokenTest extends TestCase
             'abilities' => ['create', 'read'],
         ]);
 
-        $this->delete('/user/api-tokens/'.$token->id);
+        $this->delete('/user/api-tokens/' . $token->id);
 
         $this->assertCount(0, $user->fresh()->tokens);
     }

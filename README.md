@@ -17,20 +17,16 @@
 11. for vendor dashboard visit http://127.0.0.1:8000/ for search page
 12. for vendor dashboard visit http://127.0.0.1:8000/register for register page
 
+## Testing
+`php artisan test`
+
 ## Features
 
-### SparkCommerce
-- [x] DashBoard
-- [x] Product CRUD
-- [x] Tags CRUD
-- [x] Categories CRUD
-- [x] Orders
-- [x] Coupons CRUD 
-- [x] Checkout
-- [ ] Using Sale price during checkout
-- [ ] Use coupons during checkout
-- [ ] Anlytics
-- [ ] Export/Import products
-- [ ] Export/Import Orders
-- [ ] Export/Import Categories
-- [ ] Export/Import Tags
+### Covid Vaccination Challenege
+- [x] 
+- [x] 
+- [x] 
+- [x] 
+- [x] 
+- [x] 
+- [x] 

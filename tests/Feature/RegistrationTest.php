@@ -44,7 +44,7 @@ class RegistrationTest extends TestCase
 
         $vaccineCenter = VaccineCenter::factory()->create();
 
-        $response = $this->followingRedirects()
+        $this->followingRedirects()
             ->post('/register', [
                 'name' => 'Test User',
                 'nid' => '1234567890123',
