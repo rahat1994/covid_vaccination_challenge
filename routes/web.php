@@ -16,23 +16,24 @@ Route::post('get-status', function (Request $request) {
     $request->validate([
         'value' => ['required', 'string', 'regex:/^\d{13}$|^\d{17}$/'],
     ]);
-    // $user = User::whereNid($request->value)->first();
-    // DB::enableQueryLog();
-    $user = DB::selectOne('select id from users where nid = ? LIMIT 1', [$request->value]);
-    $appointment = DB::selectOne('select vaccination_appointments.appointment_at from users JOIN vaccination_appointments on users.id = vaccination_appointments.user_id where users.nid = ? LIMIT 1', [$request->value]);
-    // dd(DB::getQueryLog());
-    $status = null;
 
-    if (empty($user)) {
-        $status = 'Not Registered';
-    } else {
-        if (empty($appointment)) {
+    $data = DB::selectOne(
+        '
+    SELECT u.id, va.appointment_at
+    FROM users u
+    LEFT JOIN vaccination_appointments va ON u.id = va.user_id
+    WHERE u.nid = ?
+    LIMIT 1',
+        [$request->value]
+    );
+
+    $status = 'Not Registered';
+
+    if (!empty($data)) {
+        if (empty($data->appointment_at)) {
             $status = 'Not Scheduled';
         } else {
-            if (Carbon::parse($appointment->appointment_at)->isPast()) {
-                $status = 'Vaccinated';
-            }
-            $status = 'Scheduled';
+            $status = Carbon::parse($data->appointment_at)->isPast() ? 'Vaccinated' : 'Scheduled';
         }
     }
 
