@@ -2,6 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
+use App\Models\VaccineCenter;
+use Database\Factories\VaccineCenterFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -20,26 +23,35 @@ class AppointmentSearchTest extends TestCase
 
     public function test_users_can_find_appointment_using_the_right_nid(): void
     {
-        // $user = User::factory()->create();
+        $vaccineCenter = VaccineCenter::factory()->create();
+        $user = User::factory()->create(
+            [
+                'nid' => '1234567890123',
+                'vaccination_center_id' => $vaccineCenter->id,
+            ]
+        );
 
-        // $response = $this->post('/login', [
-        //     'email' => $user->email,
-        //     'password' => 'password',
-        // ]);
+        $response = $this->post('/get-status', [
+            'value' => $user->nid,
+        ]);
 
-        // $this->assertAuthenticated();
-        // $response->assertRedirect(route('dashboard', absolute: false));
+        $response->assertOk();
     }
 
-    public function test_users_can_find_appointment_using_the_wrong_nid(): void
+    public function test_users_can_not_find_appointment_using_the_wrong_nid(): void
     {
-        // $user = User::factory()->create();
+        $vaccineCenter = VaccineCenter::factory()->create();
+        $user = User::factory()->create(
+            [
+                'nid' => '1234567890123',
+                'vaccination_center_id' => $vaccineCenter->id,
+            ]
+        );
 
-        // $this->post('/login', [
-        //     'email' => $user->email,
-        //     'password' => 'wrong-password',
-        // ]);
+        $response = $this->post('/get-status', [
+            'value' => 'sfasdg',
+        ]);
 
-        // $this->assertGuest();
+        $response->assertStatus(302);
     }
 }

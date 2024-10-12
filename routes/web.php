@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 Route::get('/', function (Request $request) {
@@ -22,23 +23,22 @@ Route::post('get-status', function (Request $request) {
     // dd(DB::getQueryLog());
     $status = null;
 
-    if(empty($user)) {
+    if (empty($user)) {
         $status = 'Not Registered';
-    } else{
-        if(empty($appointment)) {
+    } else {
+        if (empty($appointment)) {
             $status = 'Not Scheduled';
         } else {
-            if(Carbon::parse($appointment->appointment_at)->isPast()) {
+            if (Carbon::parse($appointment->appointment_at)->isPast()) {
                 $status = 'Vaccinated';
             }
             $status = 'Scheduled';
         }
-    }    
+    }
 
     return Inertia::render('Welcome', [
         'status' => $status
     ]);
-    
 })->name('get-status');
 
 Route::middleware([
