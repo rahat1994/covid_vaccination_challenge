@@ -1,7 +1,4 @@
 # Covid vaccination challenge
-## About this project
-
-
 
 ## Setup Process
 1. `git clone`
@@ -13,20 +10,18 @@
 7. run `npm install`
 8. run `npm run dev`
 9. serve the app using `php artisan serve`
-10. run `php artisan queue:work`
+10. run `php artisan queue:work` is important for background jobs.
 11. for vendor dashboard visit http://127.0.0.1:8000/ for search page
 12. for vendor dashboard visit http://127.0.0.1:8000/register for register page
 
 ## Testing
 `php artisan test`
 
-## Features
-
-### Covid Vaccination Challenege
-- [x] 
-- [x] 
-- [x] 
-- [x] 
-- [x] 
-- [x] 
-- [x] 
+### Things to be done
+- [x] Adding indexes to optimize query performance.
+- [x] Offload scheduling process to a background job.
+- [ ] What happens if a person signs up for that day after scheduling email is sent out.
+- [ ] Eleminate any race condition when looking for next schedule.
+- [ ] Make the `getNextSchedule` function effecient.
+- [ ] 
+- [ ] 
